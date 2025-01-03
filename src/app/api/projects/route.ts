@@ -10,16 +10,18 @@ export async function GET(request: NextRequest) {
     });
   }
 
-  const data = {
-    data: [
-      {
-        id: `id-${Number(cursor) + 1}`,
-        name: `Project ${Number(cursor) + 1}`,
-        createdAt: new Date().toLocaleTimeString(),
-      },
-    ],
+  const now = new Date().toLocaleTimeString();
+
+  const data = Array.from({ length: 4 }, (_, i) => ({
+    id: `${Number(cursor) * 4 + i + 1}`,
+    name: `Project ${Number(cursor) * 4 + i + 1}`,
+    createdAt: now,
+  }));
+
+  const resData = {
+    data,
     nextCursor: Number(cursor) + 1,
   };
 
-  return Response.json(data);
+  return Response.json(resData);
 }

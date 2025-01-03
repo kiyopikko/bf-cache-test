@@ -1,7 +1,7 @@
 "use client";
 
+import { ProjectItem } from "@/components/Projects/ProjectItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import Link from "next/link";
 import { Fragment } from "react";
 
 export const Projects = () => {
@@ -30,27 +30,25 @@ export const Projects = () => {
   console.log(data?.pages);
 
   return status === "pending" ? (
-    <p>Loading...</p>
+    <p className="text-center py-4">Loading...</p>
   ) : status === "error" ? (
     <p>Error: {error.message}</p>
   ) : (
     <>
-      <a href="https://example.com">example.com</a>
-      <a href="/next">ハードナビゲーション</a>
-      <Link href="/next">ソフトナビゲーション</Link>
-      {data.pages.map((group, i) => (
-        <Fragment key={i}>
-          {group.data.map(
-            (project: { id: string; name: string; createdAt: string }) => (
-              <p key={project.id}>
-                {project.name}:{project.createdAt}
-              </p>
-            )
-          )}
-        </Fragment>
-      ))}
-      <div>
+      <ul className="flex flex-col gap-3 p-3">
+        {data.pages.map((group, i) => (
+          <Fragment key={i}>
+            {group.data.map(
+              (project: { id: string; name: string; createdAt: string }) => (
+                <ProjectItem key={project.id} project={project} />
+              )
+            )}
+          </Fragment>
+        ))}
+      </ul>
+      <div className="flex justify-center px-3 pb-10">
         <button
+          className="bg-zinc-800 text-white py-4 rounded-md w-full font-bold"
           onClick={() => fetchNextPage()}
           disabled={!hasNextPage || isFetchingNextPage}
         >
@@ -61,7 +59,9 @@ export const Projects = () => {
             : "Nothing more to load"}
         </button>
       </div>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+      <div className="text-center py-4">
+        {isFetching && !isFetchingNextPage ? "Fetching..." : null}
+      </div>
     </>
   );
 };
