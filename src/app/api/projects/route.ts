@@ -12,7 +12,11 @@ export async function GET(request: NextRequest) {
 
   const data = {
     data: [
-      { id: `id-${Number(cursor) + 1}`, name: `Project ${Number(cursor) + 1}` },
+      {
+        id: `id-${Number(cursor) + 1}`,
+        name: `Project ${Number(cursor) + 1}`,
+        createdAt: new Date().toLocaleTimeString(),
+      },
     ],
     nextCursor: Number(cursor) + 1,
   };

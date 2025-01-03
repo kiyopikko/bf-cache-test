@@ -24,6 +24,7 @@ export const Projects = () => {
     queryFn: fetchProjects,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+    staleTime: 1000 * 5,
   });
 
   console.log(data?.pages);
@@ -39,9 +40,13 @@ export const Projects = () => {
       <Link href="/next">ソフトナビゲーション</Link>
       {data.pages.map((group, i) => (
         <Fragment key={i}>
-          {group.data.map((project: { id: string; name: string }) => (
-            <p key={project.id}>{project.name}</p>
-          ))}
+          {group.data.map(
+            (project: { id: string; name: string; createdAt: string }) => (
+              <p key={project.id}>
+                {project.name}:{project.createdAt}
+              </p>
+            )
+          )}
         </Fragment>
       ))}
       <div>
