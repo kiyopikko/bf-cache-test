@@ -12,14 +12,14 @@ export async function GET(request: NextRequest) {
 
   const now = new Date().toLocaleTimeString();
 
-  const data = Array.from({ length: 4 }, (_, i) => ({
+  const projects = Array.from({ length: 4 }, (_, i) => ({
     id: `${Number(cursor) * 4 + i + 1}`,
     name: `Project ${Number(cursor) * 4 + i + 1}`,
     createdAt: now,
   }));
 
   const resData = {
-    data,
+    projects,
     nextCursor: Number(cursor) + 1,
   };
 

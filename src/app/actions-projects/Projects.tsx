@@ -1,14 +1,15 @@
 "use client";
 
+import { getProjects } from "@/actions";
 import { ProjectItem } from "@/components/Projects/ProjectItem";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { Fragment } from "react";
 
 export const Projects = () => {
   const fetchProjects = async ({ pageParam }: { pageParam: number }) => {
-    const res = await fetch("/api/projects?cursor=" + pageParam);
+    const result = await getProjects(pageParam);
     window.history.replaceState({}, "", window.location.toString());
-    return res.json();
+    return result;
   };
 
   const {
@@ -20,7 +21,7 @@ export const Projects = () => {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["projects"],
+    queryKey: ["actions-projects"],
     queryFn: fetchProjects,
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
@@ -38,7 +39,11 @@ export const Projects = () => {
           <Fragment key={i}>
             {group.projects.map(
               (project: { id: string; name: string; createdAt: string }) => (
-                <ProjectItem key={project.id} project={project} />
+                <ProjectItem
+                  key={project.id}
+                  project={project}
+                  parentPath="actions-projects"
+                />
               )
             )}
           </Fragment>

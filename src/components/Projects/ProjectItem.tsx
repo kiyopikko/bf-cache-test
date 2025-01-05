@@ -1,11 +1,12 @@
-import { Project } from "@/types";
+import type { Project } from "@/types";
 import Link from "next/link";
 
 type Props = {
   project: Project;
+  parentPath?: string;
 };
 
-export const ProjectItem = ({ project }: Props) => {
+export const ProjectItem = ({ project, parentPath = "projects" }: Props) => {
   const bgColor =
     Number(project.id) % 4 === 0
       ? "bg-orange-300"
@@ -37,9 +38,9 @@ export const ProjectItem = ({ project }: Props) => {
   );
 
   return Number(project.id) % 4 === 1 ? (
-    <Link href={`/projects/${project.id}`}>{innerEl}</Link>
+    <Link href={`/${parentPath}/${project.id}`}>{innerEl}</Link>
   ) : Number(project.id) % 4 === 2 ? (
-    <a href={`/projects/${project.id}`}>{innerEl}</a>
+    <a href={`/${parentPath}/${project.id}`}>{innerEl}</a>
   ) : Number(project.id) % 4 === 3 ? (
     <a href="https://example.com">{innerEl}</a>
   ) : (
